@@ -9,6 +9,11 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+/**
+ * Springのメッセージ多言語化。バリデーションエラーメッセージを日本語で取扱できるよう設定する。
+ * @author tomiyama
+ *
+ */
 @Configuration
 public class MessageConfig extends WebMvcConfigurerAdapter
 {

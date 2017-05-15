@@ -9,20 +9,34 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+/**
+ * 投稿データのエンティティ。
+ * @author tomiyama
+ *
+ */
 @Entity
 @Table(name="tb_posts")
 public class Post {
+	/**
+	 * 投稿ID（主キー）.
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id")
 	private Long id;
 	
+	/**
+	 * 投稿内容.
+	 */
 	@Lob
 	@Column(name="text")
 	@NotNull
 	private String text;
 
 	
+	/**
+	 * 添付ファイルをS3へ保存した時のID.これでファイルをS3より取得する.
+	 */
 	@Column(name="file_id")
 	private String fileId;
 
