@@ -58,7 +58,7 @@ public class IndexController {
 	 * @return 画像ファイルのbyte配列
 	 */
 	@ResponseBody
-	@RequestMapping(value="img/{id}")
+	@RequestMapping(value="img/{id:.+}")
 	public HttpEntity<byte[]> getImage(@PathVariable String id) {
 		byte[] picture = null;
 		try {
