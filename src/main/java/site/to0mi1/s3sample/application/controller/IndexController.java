@@ -128,28 +128,31 @@ public class IndexController {
 		
 		logger.debug("text: " + /*form.getText() + */" file:" + form.getFile().getOriginalFilename());
 		
-		// 本当はコントローラに書きたくないけれど、Amazonに依存するためコントローラに書く
-		StringBuffer fileNameBuffer = new StringBuffer(UUID.randomUUID().toString());
-		if (form.getFile().getContentType().equals(MediaType.IMAGE_JPEG_VALUE)) {
-			fileNameBuffer.append(".jpg");
-		} else if (form.getFile().getContentType().equals(MediaType.IMAGE_GIF_VALUE)) {
-			fileNameBuffer.append(".png");
-		} else if (form.getFile().getContentType().equals(MediaType.IMAGE_PNG_VALUE)) {
-			fileNameBuffer.append(".gif");
-		}
-		
-		// 添付ファイル保存
-		try {
-			s3helper.saveFile(form.getFile().getBytes(), fileNameBuffer.toString());
-		} catch (IOException e) {
-			logger.error("添付ファイルStreams取得エラー", e);
-			return "redirect:index";
-		}
-		
 		// データの永続化
 		Post post = new Post();
 		post.setText(form.getText());
-		post.setFileId(fileNameBuffer.toString());
+
+		// 本当はコントローラに書きたくないけれど、Amazonに依存するためコントローラに書く
+		if (form.getFile() != null && !form.getFile().isEmpty()) {
+			StringBuffer fileNameBuffer = new StringBuffer(UUID.randomUUID().toString());
+			if (form.getFile().getContentType().equals(MediaType.IMAGE_JPEG_VALUE)) {
+				fileNameBuffer.append(".jpg");
+			} else if (form.getFile().getContentType().equals(MediaType.IMAGE_GIF_VALUE)) {
+				fileNameBuffer.append(".png");
+			} else if (form.getFile().getContentType().equals(MediaType.IMAGE_PNG_VALUE)) {
+				fileNameBuffer.append(".gif");
+			}
+			
+			// 添付ファイル保存
+			try {
+				s3helper.saveFile(form.getFile().getBytes(), fileNameBuffer.toString());
+			} catch (IOException e) {
+				logger.error("添付ファイルStreams取得エラー", e);
+				return "redirect:index";
+			}
+			post.setFileId(fileNameBuffer.toString());
+		}
+		
 		service.save(post);
 		
 		return "redirect:/";
