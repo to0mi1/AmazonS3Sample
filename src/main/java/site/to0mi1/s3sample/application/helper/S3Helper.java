@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.WritableResource;
@@ -21,6 +22,9 @@ public class S3Helper {
 	@Autowired
 	private ResourceLoader resourceLoader;
 	
+	@Value("${S3SAMPLE_BUCKET}")
+	private String s3Bucket;
+	
 	/**
 	 * AmazonS3上にファイルを保管する。
 	 * @param 保存対象ファイルのbyte配列
@@ -28,7 +32,7 @@ public class S3Helper {
 	 * @return 保存ファイル名。保存に失敗した場合には、nullを返却する。
 	 */
 	public String saveFile(byte[] data, String uploadTemporaryFileId) {
-		Resource resource = resourceLoader.getResource("s3://test-pictec-s3/s3sample/" + uploadTemporaryFileId);
+		Resource resource = resourceLoader.getResource("s3://" + s3Bucket + "/s3sample/" + uploadTemporaryFileId);
 		WritableResource writableResource = (WritableResource) resource;
 		try (OutputStream outputStream = writableResource.getOutputStream();) {
 			outputStream.write(data);
