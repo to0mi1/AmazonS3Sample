@@ -132,7 +132,7 @@ public class IndexController {
 		Post post = new Post();
 		post.setText(form.getText());
 
-		// 本当はコントローラに書きたくないけれど、Amazonに依存するためコントローラに書く
+		// データ保存
 		if (form.getFile() != null && !form.getFile().isEmpty()) {
 			StringBuffer fileNameBuffer = new StringBuffer(UUID.randomUUID().toString());
 			if (form.getFile().getContentType().equals(MediaType.IMAGE_JPEG_VALUE)) {
