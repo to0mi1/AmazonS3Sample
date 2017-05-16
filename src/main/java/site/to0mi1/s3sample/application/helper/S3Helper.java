@@ -49,7 +49,7 @@ public class S3Helper {
 	 * @return ファイルのbyte配列
 	 */
 	public byte[] getFile(String TemporaryfileId) {
-		Resource resource = resourceLoader.getResource("s3://test-pictec-s3/s3sample/" + TemporaryfileId);
+		Resource resource = resourceLoader.getResource("s3://" + s3Bucket + "/s3sample/" + TemporaryfileId);
 		if (resource == null) {
 			return null;
 		}
